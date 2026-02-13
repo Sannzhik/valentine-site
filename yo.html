@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anime Valentine 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd1dc,#ffc2e2,#ffe4ec);
+    overflow:hidden;
+}
+
+.card{
+    background:white;
+    padding:60px 80px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(255,0,100,.2);
+    width:420px;
+}
+
+h1{color:#ff4d6d;font-size:32px;margin-bottom:40px;}
+.buttons{display:flex;gap:20px;justify-content:center;}
+
+button{
+    padding:15px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+}
+#yes{background:linear-gradient(45deg,#ff4d6d,#ff758c);color:white;}
+#no{background:#eee;color:#ff4d6d;}
+
+#final{
+    position:fixed;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff758c,#ffb3c1);
+    color:white;
+    text-align:center;
+    overflow:hidden;
+}
+
+#gif{border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+
+#text{width:70%;font-size:24px;margin-top:20px;min-height:120px;}
+
+.heart{
+    position:absolute;
+    bottom:0;
+    animation:fly 5s linear forwards;
+}
+@keyframes fly{
+    from{transform:translateY(0);opacity:1;}
+    to{transform:translateY(-600px);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div class="buttons">
+        <button id="yes">Yes 💘</button>
+        <button id="no">No 💔</button>
+    </div>
+</div>
+
+<div id="final">
+    <h1>I’m so happy 😍</h1>
+    <img id="gif" width="320">
+    <div id="text"></div>
+</div>
+
+<script>
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const final=document.getElementById("final");
+const gif=document.getElementById("gif");
+const textBox=document.getElementById("text");
+
+let texts=["Серьёзно?","Ты уверена?","Подумай ещё 😢","Мне будет грустно","Ну пожалуйста","Последний шанс"];
+let i=0;
+let scale=1;
+
+/* убегание NO */
+document.addEventListener("mousemove",(e)=>{
+    const rect=noBtn.getBoundingClientRect();
+    const dx=e.clientX-(rect.left+rect.width/2);
+    const dy=e.clientY-(rect.top+rect.height/2);
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<120){
+        noBtn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+    }
+});
+
+noBtn.onclick=()=>{
+    noBtn.innerText=texts[i%texts.length];
+    i++;
+    scale+=0.2;
+    yesBtn.style.transform=`scale(${scale})`;
+}
+
+/* аниме GIF’ки */
+const gifs=[
+"https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif",
+"https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif",
+"https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHVsems5OXFqNTB4czV4NmpmdW5yZzVyYmNka3p2c3Bld3NhMmMyMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26FLdmIp6wJr91JAI/giphy.gif",
+"https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2loczFvdnNkdmF5amRlZDJmb2dscW12bm9hb3lhNmlmcHc2YzJwaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/BQAk13taTaKYw/giphy.gif",
+"https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHNpdzB1bXJsMzZlaGpzdnYydHVmeGNoejVteTU4eHN5cnZjYzB1YSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/90F8aUepslB84/giphy.gif"
+];
+let gifIndex=0;
+
+yesBtn.onclick=()=>{
+    final.style.display="flex";
+    gif.src=gifs[0];
+    setInterval(changeGif,3000);
+    setInterval(createHeart,150);
+    typeLove();
+}
+
+function changeGif(){
+    gifIndex=(gifIndex+1)%gifs.length;
+    gif.src=gifs[gifIndex];
+}
+
+/* сердечки */
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="💖";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*30+20)+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+}
+
+/* печатающийся текст */
+const message=`Yo Aisha! 💖
+
+Ты делаешь мои дни ярче,
+мое настроение лучше,
+и мою жизнь веселее,хотя ответа жду, все равно.
+
+Просто хотел сказать…
+Мен сені жақсы көрем ❤️`;
+
+let idx=0;
+function typeLove(){
+    if(idx<message.length){
+        textBox.innerHTML+=message.charAt(idx);
+        idx++;
+        setTimeout(typeLove,40);
+    }
+}
+</script>
+
+</body>
+</html>
